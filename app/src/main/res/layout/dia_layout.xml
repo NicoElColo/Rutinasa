@@ -6,13 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginHorizontal="20dp"
-    tools:context=".Rutina">
+    tools:context=".Dia">
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/BtnND"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Nuevo Dia"
+        android:text="Nuevo Ejercicio"
         android:textSize="20sp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
