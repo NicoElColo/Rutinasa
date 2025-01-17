@@ -1,0 +1,97 @@
+package com.example.rutinasa
+
+import android.content.Context
+import android.content.Intent
+import android.database.Cursor
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import android.widget.Toast
+import androidx.recyclerview.widget.RecyclerView
+import com.example.rutinasa.databinding.ItemRecyclerBinding
+
+class AdapterRecyclerRoutineAndDay : RecyclerView.Adapter<AdapterRecyclerRoutineAndDay.ViewHolder>() {
+
+    lateinit var context : Context
+    lateinit var cursor : Cursor
+    var bool : Boolean = true
+
+    fun initialize(context: Context, cursor: Cursor, bool: Boolean) {
+        this.context = context
+        this.cursor = cursor
+        this.bool = bool
+    }
+
+    // Esto representa a cada item de la vista
+    // Son objetos que se van creando/destruyendo dinamicamente
+    inner class ViewHolder(view: View, bool: Boolean) : RecyclerView.ViewHolder(view) {
+
+        // Variables
+        val tvTitle: TextView
+        val tvDesc: TextView
+        var id: Int = -1
+        var rutinaOrDay : Boolean = bool
+
+        // constructor primario
+        init {
+            val bindingItemsRV = ItemRecyclerBinding.bind(view)
+            tvTitle = bindingItemsRV.ItemRoutineDayTitle
+            tvDesc = bindingItemsRV.ItemRoutineDayDesc
+
+            /// puede dar problemas si queremos hacer el menu desplegable porque seguro ocupa la totalidad del  espacio
+            /// hay que ver como meter botones "secundarios"
+
+            view.setOnClickListener {
+                if (rutinaOrDay) { // true -> Rutina
+                    val intent = Intent(context, Rutina::class.java)
+                    intent.putExtra("id", id)
+                    context.startActivity(intent)
+                } else { // false -> Dia
+                    val intent = Intent(context, Dia::class.java)
+                    intent.putExtra("id", id)
+                    context.startActivity(intent)
+                }
+            }
+        }
+
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        val view = inflater.inflate(R.layout.item_recycler, parent, false)
+        return ViewHolder(view, bool)
+    }
+
+    override fun getItemCount(): Int {
+        if (cursor == null) {
+            return 0
+        } else {
+            return cursor.count
+        }
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        cursor.moveToPosition(position)
+
+        if (bool) { // Rutina
+            holder.tvTitle.text = cursor.getString(1)
+            holder.tvDesc.text = cursor.getString(2)
+            if (cursor.getString(2).isBlank()) {
+                holder.tvDesc.visibility = View.GONE
+            } else {
+                holder.tvDesc.visibility = View.VISIBLE
+            }
+        } else { // Dia
+            holder.tvTitle.text = cursor.getString(2)
+            holder.tvDesc.text = cursor.getString(3)
+            if (cursor.getString(3).isBlank()) {
+                holder.tvDesc.visibility = View.GONE
+            } else {
+                holder.tvDesc.visibility = View.VISIBLE
+            }
+        }
+        holder.id = cursor.getInt(0)
+        holder.rutinaOrDay = bool
+    }
+}
