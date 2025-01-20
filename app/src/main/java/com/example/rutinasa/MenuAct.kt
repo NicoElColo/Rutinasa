@@ -42,6 +42,12 @@ class MenuAct : AppCompatActivity() {
 
     }
 
+    override fun onRestart() {
+        super.onRestart()
+        DatabaseManager.openDatabase()
+        refreshData()
+    }
+
     override fun onPause() {
         super.onPause()
         DatabaseManager.closeDatabase()
@@ -61,6 +67,7 @@ class MenuAct : AppCompatActivity() {
     private fun refreshData() {
         val cursor: Cursor = DatabaseManager.getDatabase().rawQuery(query, null)
         (binding.recyclerView.adapter as? AdapterRecyclerRoutineAndDay)!!.initialize(this, cursor, true)
+        binding.recyclerView.adapter?.notifyDataSetChanged()
     }
 
     override fun onDestroy() {
