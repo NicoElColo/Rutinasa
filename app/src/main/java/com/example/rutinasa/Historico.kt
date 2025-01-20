@@ -32,7 +32,6 @@ class Historico : AppCompatActivity() {
         binding = HistoricoLayoutBinding.inflate(layoutInflater)
         setContentView(binding.root)
         idExercise = intent.getIntExtra("id", -1)
-        Log.i("Historico", "idExercise: $idExercise")
 
         val cursor : Cursor = DatabaseManager.getDatabase().rawQuery(query, arrayOf(idExercise.toString()))
 
