@@ -119,7 +119,7 @@ class MyDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NA
         return id.toInt()
     }
 
-    fun insertHistory(id_exercise: Int, fecha: String, peso: Float) : Int{
+    fun insertHistory(id_exercise: Int, fecha: Long, peso: Float) : Int{
         val datos = ContentValues()
         datos.put("id_exercise", id_exercise)
         datos.put("fecha", fecha)
@@ -203,7 +203,7 @@ object DatabaseManager {
         return dbHelper?.insertExercise(id_day, nombre, series, repeticiones, descripcion)
     }
 
-    fun insertHistory(id_exercise: Int, fecha: String, peso: Float) {
+    fun insertHistory(id_exercise: Int, fecha: Long, peso: Float) {
         dbHelper?.insertHistory(id_exercise, fecha, peso)
     }
 }

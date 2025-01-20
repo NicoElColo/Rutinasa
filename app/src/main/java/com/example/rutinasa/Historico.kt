@@ -3,19 +3,20 @@ package com.example.rutinasa
 import android.content.Intent
 import android.database.Cursor
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.AppCompatButton
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rutinasa.databinding.DiaLayoutBinding
+import com.example.rutinasa.databinding.HistoricoLayoutBinding
 
-class Dia : AppCompatActivity() {
+class Historico : AppCompatActivity() {
 
-    private lateinit var binding: DiaLayoutBinding
-    private var idDay = -1
-    private val query : String = "SELECT * FROM Exercise WHERE id_day = ? ORDER BY nombre" //nombre esta mal
+    private lateinit var binding: HistoricoLayoutBinding
+    private var idExercise = -1
+    private val query : String = "SELECT * FROM History WHERE id_exercise = ? ORDER BY fecha DESC"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,22 +29,21 @@ class Dia : AppCompatActivity() {
 
         DatabaseManager.openDatabase()
 
-        binding = DiaLayoutBinding.inflate(layoutInflater)
+        binding = HistoricoLayoutBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        idExercise = intent.getIntExtra("id", -1)
+        Log.i("Historico", "idExercise: $idExercise")
 
-        idDay = intent.getIntExtra("id", -1)
-        val cursor : Cursor = DatabaseManager.getDatabase().rawQuery(query, arrayOf(idDay.toString()))
+        val cursor : Cursor = DatabaseManager.getDatabase().rawQuery(query, arrayOf(idExercise.toString()))
 
-        val adapter = AdapterRecyclerExercise()
+        val adapter = AdapterRecyclerHistory()
         adapter.initialize(this, cursor)
 
-        binding.recyclerEj.setHasFixedSize(true)
-        binding.recyclerEj.layoutManager = LinearLayoutManager(this)
-        binding.recyclerEj.adapter = adapter
+        binding.recyclerHist.setHasFixedSize(true)
+        binding.recyclerHist.layoutManager = LinearLayoutManager(this)
+        binding.recyclerHist.adapter = adapter
 
 
-        val BtnNewEj = findViewById<AppCompatButton>(R.id.BtnNewEj)
-        BtnNewEj.setOnClickListener { addExercise() }
     }
 
     override fun onPause() {
@@ -63,9 +63,9 @@ class Dia : AppCompatActivity() {
     }
 
     private fun refreshData() {
-        val cursor: Cursor = DatabaseManager.getDatabase().rawQuery(query, arrayOf(idDay.toString()))
-        (binding.recyclerEj.adapter as? AdapterRecyclerExercise)!!.initialize(this, cursor)
-        binding.recyclerEj.adapter?.notifyDataSetChanged()
+        val cursor: Cursor = DatabaseManager.getDatabase().rawQuery(query, arrayOf(idExercise.toString()))
+        (binding.recyclerHist.adapter as? AdapterRecyclerHistory)!!.initialize(this, cursor)
+        binding.recyclerHist.adapter?.notifyDataSetChanged()
     }
 
     override fun onDestroy() {
@@ -73,9 +73,4 @@ class Dia : AppCompatActivity() {
         DatabaseManager.closeDatabase()
     }
 
-    private fun addExercise() {
-        val intent = Intent(this, NuevoEjercio::class.java)
-        intent.putExtra("id", idDay)
-        startActivity(intent)
-    }
 }

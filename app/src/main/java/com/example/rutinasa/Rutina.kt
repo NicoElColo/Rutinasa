@@ -68,7 +68,7 @@ class Rutina : AppCompatActivity() {
     private fun refreshData() {
         val cursor: Cursor = DatabaseManager.getDatabase().rawQuery(query, arrayOf(idRoutine.toString()))
         (binding.recyclerDay.adapter as? AdapterRecyclerRoutineAndDay)!!.initialize(this, cursor, false)
-        binding.recyclerView.adapter?.notifyDataSetChanged()
+        binding.recyclerDay.adapter?.notifyDataSetChanged()
     }
 
     override fun onDestroy() {

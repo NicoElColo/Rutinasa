@@ -11,15 +11,22 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
 class NuevoEjercio : AppCompatActivity() {
+
+    private var idDay = -1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+//        enableEdgeToEdge()
+//
+//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+//            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+//            insets
+//        }
+
         setContentView(R.layout.nuevo_ejercio_layout)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+
+        idDay = intent.getIntExtra("id", -1)
 
         val BtnNewEj = findViewById<AppCompatButton>(R.id.BtnNewEj)
         BtnNewEj.setOnClickListener { saveEj() }
@@ -42,10 +49,12 @@ class NuevoEjercio : AppCompatActivity() {
             val descripcionEj:String = edescripcionEj.text.toString()
 
             // Aca guardamos el ejercicio
+            DatabaseManager.insertExercise(idDay, NombreEj, numSeries, numRepes, descripcionEj)
 
             // Volvemos a la vista del dia
             val intent = Intent(this, Dia::class.java)
             startActivity(intent)
+            finish()
         }
 
     }
