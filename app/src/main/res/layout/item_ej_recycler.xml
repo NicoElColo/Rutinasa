@@ -4,71 +4,108 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/itemRoutineDay"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/itemEj"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:cardBackgroundColor="@color/orange"
-        app:cardCornerRadius="10dp"
-        app:contentPadding="10dp">
+        app:layout_constraintTop_toTopOf="parent"
+        app:cardBackgroundColor="@color/grey"
+        app:strokeWidth="1dp"
+        app:strokeColor="#474747"
+        app:cardCornerRadius="10dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="match_parent">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/ItemEjTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/itemEjData"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginStart="12dp"
-                android:hint="Ejercicio"
-                android:gravity="center"
-                android:textStyle="bold"
-                android:background="@color/orange"
-                android:textSize="20sp"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/ItemEjDesc"
+                app:cardBackgroundColor="@color/light_grey"
+                app:strokeWidth="1dp"
+                app:strokeColor="@color/black"
+                android:layout_marginBottom="3dp"
+                app:cardCornerRadius="10dp"
+                app:contentPadding="10dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    >
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/ItemEjTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toTopOf="@id/ItemEjSeries"
+                        android:layout_marginStart="12dp"
+                        android:text="Ejercicio"
+                        android:gravity="center"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:background="@null"
+                        android:textSize="20sp"/>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/ItemEjSeries"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@null"
+                        android:layout_marginStart="12dp"
+                        android:text="Series: 4     Repeticiones: 8"
+                        android:textSize="17sp"
+                        android:textColor="@color/black"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/ItemEjTitle"/>
+
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:id="@+id/addRegisterBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:src="@drawable/baseline_add_24"
+                        android:background="@null"
+                        >
+
+                    </androidx.appcompat.widget.AppCompatImageButton>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/ItemEjSeries"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginStart="20dp"
-                android:background="@color/orange"
-                android:gravity="center"
-                android:hint="SeriesxRepeticiones"
-                android:textSize="17sp"
+                android:id="@+id/ItemEjDesc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/itemEjData"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/ItemEjTitle"
-                app:layout_constraintTop_toTopOf="parent"/>
-
-            <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/addRegisterBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:src="@drawable/baseline_add_24"
-                android:background="@color/material_on_background_disabled"
-                >
-
-            </androidx.appcompat.widget.AppCompatImageButton>
-
+                android:text="Descripcion"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="22dp"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/black"
+                android:textSize="15sp"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 
+    </com.google.android.material.card.MaterialCardView>
 
-    </androidx.cardview.widget.CardView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

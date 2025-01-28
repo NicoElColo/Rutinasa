@@ -2,17 +2,20 @@ package com.example.rutinasa
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
 class NuevoDia : AppCompatActivity() {
 
     private var idRoutine : Int = -1
+    private var idDay : Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,10 +28,56 @@ class NuevoDia : AppCompatActivity() {
         setContentView(R.layout.nuevo_dia_layout)
 
         idRoutine = intent.getIntExtra("id", -1)
+        idDay = intent.getIntExtra("idDay", -1)
 
-        val BtnDia = findViewById<AppCompatButton>(R.id.BtnDia)
-        BtnDia.setOnClickListener { ejectDay() }
+        if (idDay != -1) {
 
+            val eNombreDay = findViewById<AppCompatEditText>(R.id.eNombreDia)
+            val eDescripcionDay = findViewById<AppCompatEditText>(R.id.eDescripcionDia)
+
+            DatabaseManager.openDatabase()
+            val cursor = DatabaseManager.getDatabase().rawQuery("SELECT * FROM Day WHERE id = ?", arrayOf(idDay.toString()))
+            cursor.moveToFirst()
+            eNombreDay.setText(cursor.getString(2))
+            eDescripcionDay.setText(cursor.getString(3))
+            cursor.close()
+            DatabaseManager.closeDatabase()
+        }
+
+        val BtnDia = findViewById<AppCompatImageButton>(R.id.BtnDia)
+        BtnDia.setOnClickListener {
+            if (idDay != -1) {
+                updateDay()
+            } else {
+                ejectDay()
+            }
+        }
+
+    }
+
+    private fun updateDay() {
+        val eNombre = findViewById<AppCompatEditText>(R.id.eNombreDia)
+        val eDescripcion = findViewById<AppCompatEditText>(R.id.eDescripcionDia)
+
+        val Nombre:String = eNombre.text.toString()
+        val Descripcion:String = eDescripcion.text.toString()
+
+        if (Nombre.isNotEmpty()) {
+
+            val rows = DatabaseManager.updateDay(idDay, Nombre, Descripcion)
+            if (rows != 0) {
+                Toast.makeText(this, "Dia actualizado", Toast.LENGTH_SHORT).show()
+                finish()
+            } else {
+                AlertDialog.Builder(this)
+                    .setTitle("Error")
+                    .setMessage("Ya existe una dia con ese nombre en esta rutina.")
+                    .setPositiveButton("Aceptar") { dialog, _ ->
+                        dialog.dismiss()
+                    }
+                    .show()
+            }
+        }
     }
 
     private fun ejectDay() {

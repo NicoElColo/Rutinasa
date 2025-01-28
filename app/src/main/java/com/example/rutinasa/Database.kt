@@ -134,7 +134,7 @@ class MyDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NA
 
     /// Funciones para actualizar datos
 
-    fun updateRoutine(id: Int, nombre: String, descripcion: String = "") {
+    fun updateRoutine(id: Int, nombre: String, descripcion: String = "") : Int{
         val args = arrayOf(id.toString())
 
         val datos = ContentValues()
@@ -144,17 +144,67 @@ class MyDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NA
         val db = this.writableDatabase
         val rowCount = db.update("Routine", datos, "id = ?", args)
         db.close()
+
+        return rowCount
+    }
+
+    fun updateDay(id: Int, nombre: String, descripcion: String = "") : Int{
+        val args = arrayOf(id.toString())
+
+        val datos = ContentValues()
+        datos.put("nombre", nombre)
+        datos.put("descripcion", descripcion)
+
+        val db = this.writableDatabase
+        val rowCount = db.update("Day", datos, "id = ?", args)
+        db.close()
+        return rowCount
+    }
+
+    fun updateExercise(id: Int, nombre: String, series: Int, repeticiones: Int, descripcion: String = "") {
+        val args = arrayOf(id.toString())
+
+        val datos = ContentValues()
+        datos.put("nombre", nombre)
+        datos.put("series", series)
+        datos.put("repeticiones", repeticiones)
+        datos.put("descripcion", descripcion)
+
+        val db = this.writableDatabase
+        val rowCount = db.update("Exercise", datos, "id = ?", args)
+        db.close()
     }
 
 
     /// Funciones para borrar datos
 
-    fun deleteRoutine(nombre: String) {
-        val args = arrayOf(nombre)
+    fun deleteRoutine(id : Int) : Int {
+        val args = arrayOf(id.toString())
 
         val db = this.writableDatabase
-        val rowCount: Int = db.delete("Routine", "nombre = ?", args)
+        val rowCount: Int = db.delete("Routine", "id = ?", args)
         db.close()
+
+        return rowCount
+    }
+
+    fun deleteDay(id: Int) : Int {
+        val args = arrayOf(id.toString())
+
+        val db = this.writableDatabase
+        val rowCount: Int = db.delete("Day", "id = ?", args)
+        db.close()
+
+        return rowCount
+    }
+
+    fun deleteExercise(id: Int) : Int {
+        val args = arrayOf(id.toString())
+
+        val db = this.writableDatabase
+        val rowCount: Int = db.delete("Exercise", "id = ?", args)
+        db.close()
+        return rowCount
     }
 
     companion object {
@@ -205,5 +255,29 @@ object DatabaseManager {
 
     fun insertHistory(id_exercise: Int, fecha: Long, peso: Float) {
         dbHelper?.insertHistory(id_exercise, fecha, peso)
+    }
+
+    fun updateRoutine(id: Int, nombre: String, descripcion: String = "") : Int {
+        return dbHelper!!.updateRoutine(id, nombre, descripcion)
+    }
+
+    fun updateDay(id: Int, nombre: String, descripcion: String = "") : Int?{
+        return dbHelper?.updateDay(id, nombre, descripcion)
+    }
+
+    fun updateExercise(id: Int, nombre: String, series: Int, repeticiones: Int, descripcion: String = "") {
+        dbHelper?.updateExercise(id, nombre, series, repeticiones, descripcion)
+    }
+
+    fun deleteRoutine(id: Int) : Int? {
+        return dbHelper?.deleteRoutine(id)
+    }
+
+    fun deleteDay(id: Int) : Int? {
+        return dbHelper?.deleteDay(id)
+    }
+
+    fun deleteExercise(id: Int): Int? {
+        return dbHelper?.deleteExercise(id)
     }
 }

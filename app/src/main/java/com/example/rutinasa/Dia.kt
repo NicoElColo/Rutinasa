@@ -3,28 +3,20 @@ package com.example.rutinasa
 import android.content.Intent
 import android.database.Cursor
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rutinasa.databinding.DiaLayoutBinding
+import com.google.android.material.card.MaterialCardView
 
 class Dia : AppCompatActivity() {
 
     private lateinit var binding: DiaLayoutBinding
     private var idDay = -1
-    private val query : String = "SELECT * FROM Exercise WHERE id_day = ? ORDER BY nombre" //nombre esta mal
+    private val query : String = "SELECT * FROM Exercise WHERE id_day = ? ORDER BY id" //nombre esta mal
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        enableEdgeToEdge()
-//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-//            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-//            insets
-//        }
 
         DatabaseManager.openDatabase()
 
@@ -42,7 +34,7 @@ class Dia : AppCompatActivity() {
         binding.recyclerEj.adapter = adapter
 
 
-        val BtnNewEj = findViewById<AppCompatButton>(R.id.BtnNewEj)
+        val BtnNewEj = findViewById<MaterialCardView>(R.id.BtnNE)
         BtnNewEj.setOnClickListener { addExercise() }
     }
 
@@ -74,8 +66,10 @@ class Dia : AppCompatActivity() {
     }
 
     private fun addExercise() {
-        val intent = Intent(this, NuevoEjercio::class.java)
+        val intent = Intent(this, NuevoEjercicio::class.java)
         intent.putExtra("id", idDay)
         startActivity(intent)
+
     }
+
 }

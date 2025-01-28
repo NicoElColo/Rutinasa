@@ -20,7 +20,7 @@
             android:name=".NuevoDia"
             android:exported="false" />
         <activity
-            android:name=".NuevoEjercio"
+            android:name=".NuevoEjercicio"
             android:exported="false" />
         <activity
             android:name=".Dia"

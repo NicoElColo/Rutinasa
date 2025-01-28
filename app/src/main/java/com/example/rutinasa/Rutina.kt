@@ -12,22 +12,17 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rutinasa.databinding.MenuActLayoutBinding
 import com.example.rutinasa.databinding.RutinaLayoutBinding
+import com.google.android.material.card.MaterialCardView
 import kotlin.properties.Delegates
 
 class Rutina : AppCompatActivity() {
 
     private lateinit var binding: RutinaLayoutBinding
     private var idRoutine = -1
-    private val query : String = "SELECT * FROM Day WHERE id_routine = ? ORDER BY nombre" //nombre no queda tan bien
+    private val query : String = "SELECT * FROM Day WHERE id_routine = ? ORDER BY id" //nombre no queda tan bien
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        enableEdgeToEdge()
-//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-//            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-//            insets
-//        }
 
         DatabaseManager.openDatabase()
 
@@ -44,7 +39,7 @@ class Rutina : AppCompatActivity() {
         binding.recyclerDay.layoutManager = LinearLayoutManager(this)
         binding.recyclerDay.adapter = adapter
 
-        val BtnND = findViewById<AppCompatButton>(R.id.BtnND)
+        val BtnND = findViewById<MaterialCardView>(R.id.BtnND)
         BtnND.setOnClickListener { createDay(idRoutine) }
     }
 
